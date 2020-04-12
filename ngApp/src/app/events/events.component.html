@@ -1,0 +1,15 @@
+<div class="row mt-5">
+    <div class="col-md-4 mb-3" *ngFor="let event of sevents">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">{{event.name}}</h5>
+                <p class="card-text">{{event.price}}</p>
+
+                <a (click)='goToEdit(event._id)' class="btn btn-success">Update</a>
+            </div>
+            <div class="card-footer text-muted">
+                {{event.data | date:'shortDate'}}
+            </div>
+        </div>
+    </div>
+</div>
