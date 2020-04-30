@@ -16,10 +16,8 @@ const UserSchema = new mongoose.Schema({
             true, 'please enter your password!'
         ]
     },
-    adminCode: {
-        type: String
-    },
 
+    adminCode: ['admin'],
     isAdmin: { type: Boolean, default: false }
 }, { timestamps: true });
 

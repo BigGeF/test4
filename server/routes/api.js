@@ -29,7 +29,8 @@ function verifyToken(req, res, next) {
     };
     try {
         let payload = jwt.verify(token, 'password')
-        req.userId = payload.subject
+        req.body = payload.subject
+            // console.log(req.body);
         next()
 
     } catch (err) {
@@ -49,6 +50,7 @@ router.get('/events', verifyToken, (_, res) => {
         res.json(events)
     })
 })
+
 router.get('/eventsForIndex', (_, res) => {
     // let events = new Event()
     Event.find({}, (err, events) => {
@@ -70,28 +72,28 @@ router.get('/allUsers', (req, res) => {
     })
 })
 
-router.get('/currentUser', (req, res) => {
-    User.findById(req.params.id, (err, user) => {
-        if (err) {
-            return res.json({ errors: err.errors });
-        }
-        res.json({ user })
-    })
-})
 router.post('/register', (req, res) => {
-    let userData = req.body
-    let user = new User(userData)
-    user.save((error, registeredUser) => {
-        if (error) {
-            console.log(error);
-            res.status(401).send({ error: error.errors })
-        } else {
-            let payload = { subject: registeredUser._id }
-            let token = jwt.sign(payload, 'password')
-            res.status(200).send({ token })
+        let userData = req.body
+        if (req.body.adminCode === 'wa98030') {
+            userData.isAdmin = true;
         }
+
+        let user = new User(userData)
+        user.save((error, registeredUser) => {
+            if (error) {
+                console.log(error);
+                res.status(401).send({ error: error.errors })
+            }
+            if (registeredUser.isAdmin !== true) {
+                res.status(401).send("You are not admin")
+            } else {
+                let payload = { subject: registeredUser }
+                let token = jwt.sign(payload, 'password')
+                res.status(200).send({ token })
+            }
+        })
     })
-})
+    //adminlogin,需要做一个普通用户login
 router.post('/login', (req, res) => {
     let userData = req.body
     User.findOne({ email: userData.email }, (error, user) => {
@@ -104,17 +106,36 @@ router.post('/login', (req, res) => {
             } else
             if (user.password !== userData.password) {
                 res.status(401).send('invaild password')
+            } else
+            if (user.isAdmin !== true) {
+                res.status(401).send('You are not admin')
             } else {
-                let payload = { subject: userData._id }
+                // console.log(user.isAdmin);
+                let payload = { subject: userData }
                 let token = jwt.sign(payload, 'password')
-                res.status(200).send({ token })
-                    // res.json({ result: 'success' })
+                    // localStorage.getItem({ user })
+                    // res.json({ user })
+                res.status(200).send({ token, user })
+
+                // res.json({ result: 'success' })
             }
         }
     })
 })
 
+// router.get('/currentUser', (req, res) => {
+// const userEmail = req.body.email;
+// if (!userEmail) {
+//     return res.json({ user: null })
+// }
 
+//     User.findById(req.params.id, (err, user) => {
+//         if (err) {
+//             return res.json({ errors: err.errors });
+//         }
+//         res.json({ user })
+//     })
+// })
 
 // create a event
 router.post('/events', (req, res) => {
@@ -130,7 +151,7 @@ router.post('/events', (req, res) => {
 })
 
 // get event By Id
-router.get('/events/:id', verifyToken, (req, res) => {
+router.get('/events/:id', (req, res) => {
     Event.findById(req.params.id, (err, event) => {
         if (err) {
             return res.json(err);
@@ -150,7 +171,7 @@ router.put('/events/:id', (req, res) => {
 })
 
 // delete an event
-router.delete('/events/:id', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
     Event.findByIdAndDelete(req.params.id, (err) => {
         if (err) {
             return res.json({ errors: err.errors });

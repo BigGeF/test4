@@ -15,6 +15,9 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: [true, 'please enter a description!']
     },
+    link: {
+        type: String
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('event', eventSchema, 'events')
