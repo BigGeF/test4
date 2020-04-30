@@ -1,0 +1,32 @@
+<div class="row pt-5">
+    <div class="col-md-6 mx-auto">
+        <div class="card rounded-0">
+            <div class="card-header">
+                <h3 class="mb-0">NewCountry</h3>
+            </div>
+            <div class="card-body">
+                <form class="form">
+                    <div class="from-group">
+                        <label for="">Country</label>
+                        <input [(ngModel)]="newCountry.name" name="name " type="text" class="form-control rounded-0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Price</label>
+                        <input [(ngModel)]="newCountry.price" name="password" type="text" class="form-control rounded-0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Detail</label>
+                        <textarea type="text" [(ngModel)]="newCountry.des" name='des' class="form-control rounded-0" cols="30" rows="10"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Link</label>
+                        <input [(ngModel)]="newCountry.link" name="link" type="text" class="form-control rounded-0" required>
+                    </div>
+                    <button (click)="createCountry()" class="btn btn-success float-right">Create</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

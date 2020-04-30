@@ -15,14 +15,11 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
   registerUser(){
-  //   if (this.registerUserData.adminCode === "wa98030") {
-  //     this.registerUserData.isAdmin = true;
-  // }
     this._auth.registerUser(this.registerUserData)
       .subscribe(
         res=>{
-          console.log(res)
           localStorage.setItem('token',res.token)
+          localStorage.setItem('email',res.email)
           this._router.navigate(['/event'])
         },
 

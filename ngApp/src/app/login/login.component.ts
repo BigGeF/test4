@@ -14,18 +14,30 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 loginUser(){
-  if(this.loginUserData.adminCode !=='wa98030'){
-    // this._router.navigate(['/event'])
+  this._auth.loginUser(this.loginUserData)
+  .subscribe(
+    res=>{
+      localStorage.setItem('token',res.token),
+      // localStorage.setItem('loginUserData1',JSON.stringify(res.user)),
+      
+      this._router.navigate(['/events'])}
+    )
+    err=>console.log(err)
+    
+}
+// {
+//   if(this.loginUserData.adminCode !=='wa98030'){
+//     // this._router.navigate(['/event'])
 
-    this._router.navigate(['/event'])
-    }else{
-      this._auth.loginUser(this.loginUserData)
-      .subscribe(
-        res=>{
-          localStorage.setItem('token',res.token)
-          this._router.navigate(['/events'])
-          }
-        )
-    }
-  }
+//     this._router.navigate(['/event'])
+//     }else{
+//       this._auth.loginUser(this.loginUserData)
+//       .subscribe(
+//         res=>{
+//           localStorage.setItem('token',res.token)
+//           this._router.navigate(['/events'])
+//           }
+//         )
+//     }
+//   }
 }

@@ -5,10 +5,10 @@
                 <h5 class="card-title">{{event.name}}</h5>
                 <p class="card-text">{{event.price}}</p>
 
-                <a href="#" class="btn btn-primary">Detial</a>
+                <a (click)="goToThisCountry(event._id)" class="btn btn-primary">Detial</a>
             </div>
             <div class="card-footer text-muted">
-                {{event.data | date:'shortDate'}}
+                {{event.createdAt | date:'shortDate'}}
             </div>
         </div>
     </div>

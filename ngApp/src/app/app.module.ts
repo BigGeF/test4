@@ -13,6 +13,8 @@ import { EventComponent } from './event/event.component';
 import { AuthGuard } from './auth.guard';
 import { TokenInterceptorService } from './token-interceptor.service';
 import { GetOneAndUpdateEventComponent } from './get-one-and-update-event/get-one-and-update-event.component';
+import { NewCountryComponent } from './new-country/new-country.component';
+import { ShowOneCountryComponent } from './show-one-country/show-one-country.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +22,9 @@ import { GetOneAndUpdateEventComponent } from './get-one-and-update-event/get-on
     LoginComponent,
     EventsComponent,
     EventComponent,
-    GetOneAndUpdateEventComponent
+    GetOneAndUpdateEventComponent,
+    NewCountryComponent,
+    ShowOneCountryComponent
   ],
   imports: [
     BrowserModule,
@@ -28,11 +32,13 @@ import { GetOneAndUpdateEventComponent } from './get-one-and-update-event/get-on
     FormsModule,
     HttpClientModule,
   ],
-  providers: [AuthService,EventService,AuthGuard,{
+  providers: [AuthService,EventService,AuthGuard,
+    {
     provide:HTTP_INTERCEPTORS,
     useClass:TokenInterceptorService,
     multi:true
-  }],
+  }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
